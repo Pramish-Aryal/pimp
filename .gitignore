@@ -30,3 +30,15 @@
 *.exe
 *.out
 *.app
+
+# 4coder stuff
+*.4coder
+
+# binaries
+/build/
+
+# generated images
+*.bmp
+
+# build script
+*.ps1
