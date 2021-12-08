@@ -5,6 +5,7 @@
 #include <stdint.h>
 #include <stdlib.h>
 
+#ifdef USE_TYPEDEFS
 typedef uint64_t u64;
 typedef uint32_t u32;
 typedef uint16_t u16;
@@ -15,52 +16,52 @@ typedef int64_t i64;
 typedef int32_t i32;
 typedef int16_t i16;
 typedef int8_t i8;
-
+#endif
 
 #pragma pack(push, 1)
 
 typedef struct {
-	u16 type;
-	u32 file_size;
-	u16 reserved1;
-	u16 reserved2;
-	u32 offset;
-	u32 size;
-	u32 width;
-	u32 height;
-	u16 planes;
-	u16 bitcount;
-	u32 compression;
-	u32 size_image;
-	u32 x_pels_per_meter;
-	u32 y_pels_per_meter;
-	u32 clr_used;
-	u32 clr_important;
+	uint16_t type;
+	uint32_t file_size;
+	uint16_t reserved1;
+	uint16_t reserved2;
+	uint32_t offset;
+	uint32_t size;
+	uint32_t width;
+	uint32_t height;
+	uint16_t planes;
+	uint16_t bitcount;
+	uint32_t compression;
+	uint32_t size_image;
+	uint32_t x_pels_per_meter;
+	uint32_t y_pels_per_meter;
+	uint32_t clr_used;
+	uint32_t clr_important;
 } BitmapHeader;
 
 #pragma pack(pop)
 
 typedef struct {
 	BitmapHeader header;
-	u32 width;
-	u32 height;
-	u32* pixels;
+	uint32_t width;
+	uint32_t height;
+	uint32_t* pixels;
 } Image;
 
 void save_image(Image* image, char* file_name);
-u32 get_image_size(Image* image);
-Image create_image(u32 width, u32 height);
-b8 bmp_write(const char *filename, u32 *pixels, i32 w, i32 h, i32 channels);
-b8 bmp_write_file(FILE *fp, u32 *pixels, i32 w, i32 h, i32 channels);
+uint32_t get_image_size(Image* image);
+Image create_image(uint32_t width, uint32_t height);
+uint8_t bmp_write(const char *filename, uint32_t *pixels, int32_t w, int32_t h, int32_t  channels);
+uint8_t bmp_write_file(FILE *fp, uint32_t *pixels, int32_t w, int32_t h, int32_t channels);
 
 #ifdef PIMP_IMPLEMENTATION
 
-u32 get_image_size(Image* image)
+uint32_t get_image_size(Image* image)
 {
-	return image->width * image->height * sizeof(u32);
+	return image->width * image->height * sizeof(uint32_t);
 }
 
-Image create_image(u32 width, u32 height)
+Image create_image(uint32_t width, uint32_t height)
 {
 	Image image = {0};
 	
@@ -84,7 +85,7 @@ Image create_image(u32 width, u32 height)
 	image.header.clr_used = 0;
 	image.header.clr_important = 0;
 	
-	image.pixels = (u32*) malloc(get_image_size(&image));
+	image.pixels = (uint32_t*) malloc(get_image_size(&image));
 	
 	return image;
 }
@@ -96,7 +97,7 @@ void save_image(Image* image, char* file_name)
 	fwrite(image->pixels, get_image_size(image), 1, file);
 }
 
-b8 bmp_write(const char *filename, u32 *pixels, i32 w, i32 h, i32 channels)
+uint8_t bmp_write(const char *filename, uint32_t *pixels, int32_t w, int32_t h, int32_t channels)
 {
 	Image image = {0};
 	
@@ -133,7 +134,7 @@ b8 bmp_write(const char *filename, u32 *pixels, i32 w, i32 h, i32 channels)
 }
 
 
-b8 bmp_write_file(FILE *fp, u32 *pixels, i32 w, i32 h, i32 channels)
+uint8_t bmp_write_file(FILE *fp, uint32_t *pixels, int32_t w, int32_t h, int32_t channels)
 {
 	Image image = {0};
 	
