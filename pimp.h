@@ -159,6 +159,7 @@ uint8_t bmp_write(const char *filename, uint32_t *pixels, int32_t w, int32_t h, 
 
 uint8_t bmp_write_file(FILE *fp, uint32_t *pixels, int32_t w, int32_t h, int32_t channels)
 {
+	assert(channels == 3 || channels == 4);
 	Image image = {0};
 	
 	image.header.type = 0x4d42;
@@ -170,7 +171,7 @@ uint8_t bmp_write_file(FILE *fp, uint32_t *pixels, int32_t w, int32_t h, int32_t
 	image.header.width = w;
 	image.header.height = -h;
 	image.header.planes = 1;
-	image.header.bitcount = 32;
+	image.header.bitcount = channels * 8;
 	image.header.compression = 0;
 	image.header.size_image = 0;
 	image.header.x_pels_per_meter = 0;
